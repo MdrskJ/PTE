@@ -1,11 +1,11 @@
 import sys
 
-from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QScrollArea, QPushButton
+from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QScrollArea
 from PyQt5.QtWidgets import QVBoxLayout, QHBoxLayout, QGridLayout
 from PyQt5.QtCore import Qt
 
 import widgets
-from consts import cnt_columns, cnt_strings, v
+from mainConsts import *
 import sqlite3
 
 from math import ceil
@@ -55,17 +55,16 @@ class PTE(QMainWindow):
 
         cur = con.cursor()
 
-        # создание и расположение слотов элементов
+    # создание и расположение слотов элементов
         result = cur.execute("""
                 SELECT elements.num, elements.sym, elements.name, elements.mass, types.color, types.id,
                 elements.pos_x, elements.pos_y
                 FROM elements INNER JOIN types
                     ON elements.type = types.id""").fetchall()
 
-        for i, info in enumerate(result):
+        for info in result:
             slotLayout = QHBoxLayout()
             slot = widgets.SlotEl(*info)
-            slot.sym.clicked.connect(self.showInfo)
             slotLayout.addWidget(slot)
 
             item = QWidget()
@@ -77,22 +76,18 @@ class PTE(QMainWindow):
 
             self.mainElLayout.addWidget(item, info[6], info[7])
 
-        # создание подписей групп и высших оксидов
+    # создание подписей групп и высших оксидов
         result = cur.execute("""
                 SELECT groups.convert, groups.oxid, groups.pos_x, groups.pos_y
                 FROM groups""").fetchall()
 
-        for i, info in enumerate(result):
+        for info in result:
             groupLayout = QHBoxLayout()
             groupLayout.addWidget(widgets.SlotEl('', info[0], '', 0, None, '00ffffff'))
 
             item = QWidget()
             item.setLayout(groupLayout)
-            item.setStyleSheet(
-                "color: rgb(255, 255, 255);"
-                "border: 0px;"
-                "background-color: rgb(50, 50, 50)"
-            )
+            item.setStyleSheet(sign_style)
             self.mainElLayout.addWidget(item, info[2], info[3])
 
             oxidLayout = QHBoxLayout()
@@ -100,59 +95,38 @@ class PTE(QMainWindow):
 
             item = QWidget()
             item.setLayout(oxidLayout)
-            item.setStyleSheet(
-                "color: rgb(255, 255, 255);"
-                "border: 0px;"
-                "background-color: rgb(50, 50, 50)"
-            )
+            item.setStyleSheet(sign_style)
             self.mainElLayout.addWidget(item, 8, info[3])
 
         con.close()
 
-        # создание подписей периодов
+    # создание подписей периодов
         for i in range(1, 8):
             periodLayout = QHBoxLayout()
             periodLayout.addWidget(widgets.SlotEl('', f'          {i}', '', 0, None, '00ffffff'))
 
             item = QWidget()
             item.setLayout(periodLayout)
-            item.setStyleSheet(
-                "color: rgb(255, 255, 255);"
-                "border: 0px;"
-                "background-color: rgb(50, 50, 50)"
-            )
+            item.setStyleSheet(sign_style)
             self.mainElLayout.addWidget(item, i, 0)
 
-        # создание слота лантаноидов
+    # создание слота лантаноидов
         lanSlotLayout = QHBoxLayout()
         lanSlotLayout.addWidget(widgets.SlotEl('', '57-71', 'Лантаноиды', 0, 'DDAACB', 8))
 
         lan = QWidget()
         lan.setLayout(lanSlotLayout)
-        lan.setStyleSheet(
-            "color: rgb(255, 255, 255);"
-            f"background-color: #DDAACB;"
-            "border: 0px;"
-        )
+        lan.setStyleSheet(sign_lan_style)
         self.mainElLayout.addWidget(lan, 6, 4)
 
-        # создание слота актиноидов
+     # создание слота актиноидов
         actSlotLayout = QHBoxLayout()
         actSlotLayout.addWidget(widgets.SlotEl('', '89-103', 'Актиноиды', 0, 'BBAADE', 8))
 
         act = QWidget()
         act.setLayout(actSlotLayout)
-        act.setStyleSheet(
-            "color: rgb(255, 255, 255);"
-            f"background-color: #BBAADE;"
-            "border: 0px;"
-        )
+        act.setStyleSheet(sign_act_style)
         self.mainElLayout.addWidget(act, 7, 4)
-
-    def showInfo(self):
-        el = self.sender()
-        self.info = widgets.InfoEl(el.text())
-        self.info.show()
 
     def keyPressEvent(self, event):
         if int(event.modifiers()) == Qt.CTRL:

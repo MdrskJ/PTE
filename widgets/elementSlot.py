@@ -8,12 +8,7 @@ from PyQt5.QtCore import Qt
 
 from math import ceil
 from data import arr_of_elements
-
-
-class Window2(QWidget):
-    def __init__(self):
-        super(Window2, self).__init__()
-        self.setWindowTitle('Window2')
+from widgets.elementInfo import InfoEl
 
 
 class SlotEl(QWidget):
@@ -23,7 +18,7 @@ class SlotEl(QWidget):
         self.initUI()
 
     def initUI(self):
-        self.setGeometry(100, 100, 80, 80)
+        self.setGeometry(600, 400, 200, 200)
         self.setStyleSheet(
             "color: rgb(255, 255, 255);"
             "border: 0px solid #094065;"
@@ -34,6 +29,7 @@ class SlotEl(QWidget):
         self.num.setReadOnly(True)
 
         self.sym = QPushButton(self.args[1], self)
+        self.sym.clicked.connect(self.showInfo)
         self.sym.setStyleSheet('text-align:left;')
 
         self.name = QLineEdit(self.args[2], self)
@@ -100,6 +96,11 @@ class SlotEl(QWidget):
         self.resize(square_size)
 
         return super().resizeEvent(event)
+
+    def showInfo(self):
+        el = self.sender()
+        self.info = InfoEl(el.text())
+        self.info.show()
 
 
 def main():
