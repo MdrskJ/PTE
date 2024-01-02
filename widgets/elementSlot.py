@@ -29,7 +29,8 @@ class SlotEl(QWidget):
         self.num.setReadOnly(True)
 
         self.sym = QPushButton(self.args[1], self)
-        self.sym.clicked.connect(self.showInfo)
+        if self.num.text() != '':
+            self.sym.clicked.connect(self.showInfo)
         self.sym.setStyleSheet('text-align:left;')
 
         self.name = QLineEdit(self.args[2], self)
@@ -98,14 +99,13 @@ class SlotEl(QWidget):
         return super().resizeEvent(event)
 
     def showInfo(self):
-        el = self.sender()
-        self.info = InfoEl(el.text())
+        self.info = InfoEl(*self.args)
         self.info.show()
 
 
 def main():
     app = QApplication(sys.argv)
-    ex = SlotEl('118', 'Og', 'Оганесон', 294, '66AAFF', 8)
+    ex = SlotEl(118, 'Og', 'Оганесон', 294, '66AAFF', 8)
     ex.show()
     sys.exit(app.exec())
 
