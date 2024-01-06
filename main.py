@@ -1,4 +1,6 @@
 import sys
+from math import ceil
+import sqlite3
 
 from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QScrollArea
 from PyQt5.QtWidgets import QVBoxLayout, QHBoxLayout, QGridLayout
@@ -6,9 +8,6 @@ from PyQt5.QtCore import Qt
 
 import widgets
 from mainConsts import *
-import sqlite3
-
-from math import ceil
 
 
 class PTE(QMainWindow):
@@ -57,7 +56,7 @@ class PTE(QMainWindow):
 
     # создание и расположение слотов элементов
         result = cur.execute("""
-                SELECT elements.num, elements.sym, elements.name, elements.mass, types.color, types.id,
+                SELECT elements.num, elements.sym, elements.name, elements.mass, types.color, elements.electrons,
                 elements.pos_x, elements.pos_y
                 FROM elements INNER JOIN types
                     ON elements.type = types.id""").fetchall()
@@ -117,7 +116,7 @@ class PTE(QMainWindow):
         lan = QWidget()
         lan.setLayout(lanSlotLayout)
         lan.setStyleSheet(sign_lan_style)
-        self.mainElLayout.addWidget(lan, 6, 4)
+        self.mainElLayout.addWidget(lan, 6, 3)
 
      # создание слота актиноидов
         actSlotLayout = QHBoxLayout()
@@ -126,7 +125,7 @@ class PTE(QMainWindow):
         act = QWidget()
         act.setLayout(actSlotLayout)
         act.setStyleSheet(sign_act_style)
-        self.mainElLayout.addWidget(act, 7, 4)
+        self.mainElLayout.addWidget(act, 7, 3)
 
     def keyPressEvent(self, event):
         if int(event.modifiers()) == Qt.CTRL:

@@ -1,13 +1,11 @@
 import sys
+from math import ceil
 
 from PyQt5.QtWidgets import QWidget, QPushButton, QApplication, QLineEdit
 from PyQt5.QtGui import QFont
-
 from PyQt5 import QtCore
 from PyQt5.QtCore import Qt
 
-from math import ceil
-from data import arr_of_elements
 from widgets.elementInfo import InfoEl
 
 
@@ -42,7 +40,7 @@ class SlotEl(QWidget):
         self.mass.setReadOnly(True)
 
         if self.args[0] != '':
-            self.arr_of_counts = arr_of_elements[int(self.args[0])]["electrons"]
+            self.arr_of_counts = list(self.args[5].split())
         else:
             self.arr_of_counts = []
 
@@ -99,13 +97,13 @@ class SlotEl(QWidget):
         return super().resizeEvent(event)
 
     def showInfo(self):
-        self.info = InfoEl(*self.args)
+        self.info = InfoEl(self.args[0], self.args[6], self.args[7])
         self.info.show()
 
 
 def main():
     app = QApplication(sys.argv)
-    ex = SlotEl(118, 'Og', 'Оганесон', 294, '66AAFF', 8)
+    ex = SlotEl(118, 'Og', 'Оганесон', 294, '66AAFF', '2 8 18 32 32 18 8', 7, 19)
     ex.show()
     sys.exit(app.exec())
 

@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>562</width>
+    <width>521</width>
     <height>836</height>
    </rect>
   </property>
@@ -17,7 +17,7 @@
    <property name="geometry">
     <rect>
      <x>40</x>
-     <y>30</y>
+     <y>10</y>
      <width>441</width>
      <height>191</height>
     </rect>
@@ -87,7 +87,7 @@
    <property name="geometry">
     <rect>
      <x>40</x>
-     <y>240</y>
+     <y>220</y>
      <width>441</width>
      <height>61</height>
     </rect>
@@ -214,9 +214,9 @@
    <property name="geometry">
     <rect>
      <x>40</x>
-     <y>330</y>
+     <y>300</y>
      <width>441</width>
-     <height>141</height>
+     <height>161</height>
     </rect>
    </property>
    <widget class="QWidget" name="horizontalLayoutWidget">
@@ -225,7 +225,7 @@
       <x>20</x>
       <y>0</y>
       <width>401</width>
-      <height>141</height>
+      <height>161</height>
      </rect>
     </property>
     <layout class="QHBoxLayout" name="line3">
@@ -373,7 +373,7 @@
    <property name="geometry">
     <rect>
      <x>40</x>
-     <y>490</y>
+     <y>480</y>
      <width>441</width>
      <height>141</height>
     </rect>
@@ -440,14 +440,14 @@
       <number>0</number>
      </property>
      <item>
-      <widget class="QLineEdit" name="valence">
+      <widget class="QLineEdit" name="oxidation">
        <property name="font">
         <font>
          <family>Arial</family>
         </font>
        </property>
        <property name="text">
-        <string>Валентность</string>
+        <string>Степени окисления</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
@@ -458,7 +458,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="text_valence">
+      <widget class="QLineEdit" name="text_oxidation">
        <property name="font">
         <font>
          <family>Arial</family>
@@ -476,9 +476,9 @@
    <property name="geometry">
     <rect>
      <x>40</x>
-     <y>650</y>
+     <y>640</y>
      <width>441</width>
-     <height>151</height>
+     <height>181</height>
     </rect>
    </property>
    <widget class="QWidget" name="horizontalLayoutWidget_4">
@@ -487,10 +487,10 @@
       <x>20</x>
       <y>0</y>
       <width>401</width>
-      <height>152</height>
+      <height>183</height>
      </rect>
     </property>
-    <layout class="QHBoxLayout" name="line6">
+    <layout class="QHBoxLayout" name="line6" stretch="2,1">
      <property name="spacing">
       <number>0</number>
      </property>
@@ -498,7 +498,7 @@
       <enum>QLayout::SetDefaultConstraint</enum>
      </property>
      <item>
-      <layout class="QVBoxLayout" name="name_col_2">
+      <layout class="QVBoxLayout" name="name_col_6">
        <item>
         <widget class="QLineEdit" name="discover">
          <property name="font">
@@ -545,14 +545,29 @@
         </widget>
        </item>
        <item>
-        <widget class="QLineEdit" name="density">
+        <widget class="QLineEdit" name="density_stp">
          <property name="font">
           <font>
            <family>Arial</family>
           </font>
          </property>
          <property name="text">
-          <string>Плотность</string>
+          <string>Плотность в стандартных условиях</string>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="densyti_liquid">
+         <property name="font">
+          <font>
+           <family>Arial</family>
+          </font>
+         </property>
+         <property name="text">
+          <string>Плотность жидкости</string>
          </property>
          <property name="readOnly">
           <bool>true</bool>
@@ -627,7 +642,22 @@
         </widget>
        </item>
        <item>
-        <widget class="QLineEdit" name="ch_density">
+        <widget class="QLineEdit" name="ch_density_stp">
+         <property name="font">
+          <font>
+           <family>Arial</family>
+          </font>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="ch_density_liquid">
          <property name="font">
           <font>
            <family>Arial</family>

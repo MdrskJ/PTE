@@ -1,18 +1,19 @@
 import sys
-from PyQt5.QtWidgets import QApplication
-from PyQt5.QtWidgets import QWidget
+
+from PyQt5.QtWidgets import QApplication, QWidget
 from PyQt5.QtGui import QPixmap
 from PyQt5 import uic
 
-from infoConsts import *
-from data import arr_of_elements
+from widgets.infoConsts import *
 
 
 class InfoEl(QWidget):
-    def __init__(self, num):
+    def __init__(self, num, pos_x, pos_y):
         super().__init__()
         self.num = num
-        self.args = arr_of_elements[num]
+        self.pos_x = pos_x
+        self.pos_y = pos_y
+        self.args = open_csv_file(self.num)
         uic.loadUi(ui_path, self)
         self.loadInfo()
 
@@ -41,25 +42,24 @@ class InfoEl(QWidget):
     # вносим данные в line3
         self.line3_background.setStyleSheet(island_style)
         self.ch_atomic_num.setText(self.args["atomic"])
-        self.ch_mass.setText(self.args["weight"])
+        self.ch_mass.setText(weight_convert(self.args["weight"]))
+        self.ch_group.setText(str(self.pos_y))
+        self.ch_period.setText(str(group_convert(self.pos_x)))
 
     # вносим данные в line4 и line5
         self.line45_background.setStyleSheet(island_style)
         self.text_electron_config.setText(self.args["expandedconfig"])
         self.text_electron_string.setText(self.args["electronstring"])
-
-        if "valence" in self.args:
-            self.text_valence.setText("0")
-        else:
-            self.text_valence.setText(self.args["oxidation"])
+        self.text_oxidation.setText(oxidation_convert(self.args["oxidation"]))
 
     # вносим данные в line6
         self.line6_background.setStyleSheet(island_style)
-        self.date_discover.setText(self.args["discover"])
-        self.ch_melt.setText(self.args["melt"])
-        self.ch_boil.setText(self.args["boil"])
-        self.ch_density.setText(self.args["density"]["stp"])
-        self.ch_isotopes.setText(str(self.args["isotopes"]))
+        self.date_discover.setText(date_covert(self.args["discover"]))
+        self.ch_melt.setText(temperature_convert(self.args["melt"]))
+        self.ch_boil.setText(temperature_convert(self.args["boil"]))
+        self.ch_density_stp.setText(density_convert(self.args["density_stp"]))
+        self.ch_density_liquid.setText(density_convert(self.args["density_liquid"]))
+        self.ch_isotopes.setText(self.args["isotopes"])
 
     def cntNeutron(self):
         return str(round(float(self.args["weight"])) - self.num)
@@ -67,7 +67,7 @@ class InfoEl(QWidget):
 
 def main():
     app = QApplication(sys.argv)
-    ex = InfoEl(90)
+    ex = InfoEl(17, 3, 17)
     ex.show()
     sys.exit(app.exec())
 
