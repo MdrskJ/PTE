@@ -19,6 +19,7 @@ class InfoEl(QWidget):
 
     def loadInfo(self):
         self.setFixedSize(525, 850)
+        self.setWindowTitle(window_name_convert(self.args["name"]))
         self.setStyleSheet(
             "background-color: rgb(50, 50, 50);"
             "color: rgb(255, 255, 255);"

@@ -13,6 +13,10 @@ def open_csv_file(index: int):
         return list(reader)[index]
 
 
+def window_name_convert(name: str):
+    return f"{name}_info"
+
+
 def weight_convert(weight: str):
     return f"{float(weight)} гр/моль"
 
@@ -23,6 +27,12 @@ def group_convert(pos_y: int):
     if pos_y == 10:
         return 7
     return pos_y
+
+
+def oxidation_convert(text: str):
+    if text == "unexpected":
+        return "-"
+    return text
 
 
 def date_covert(date: str):
@@ -42,9 +52,3 @@ def density_convert(ch: str):
     if ch == "unexpected":
         return "-"
     return f"{float(ch)} гр/м3"
-
-
-def oxidation_convert(text: str):
-    if text == "unexpected":
-        return "-"
-    return text
