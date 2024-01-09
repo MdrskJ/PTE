@@ -35,7 +35,7 @@ class PTE(QMainWindow):
 
         self.surfacePTE = QWidget()
 
-        W, H = self.size().width(), self.size().height()
+        W, H = ceil(self.size().width() * k_for_task_bar), ceil(self.size().height() * k_for_task_bar)
         k = cnt_columns / cnt_strings
         if W / H > k:
             self.surfacePTE.resize(ceil(H * k), H)
@@ -48,10 +48,10 @@ class PTE(QMainWindow):
         self.surfacePTE.setLayout(self.surfacePTEVLayout)
 
         self.mainElLayout = QGridLayout()
+        self.mainElLayout.setSpacing(1)
         self.surfacePTEVLayout.addLayout(self.mainElLayout)
 
         con = sqlite3.connect("elements_db.sqlite")
-
         cur = con.cursor()
 
     # создание и расположение слотов элементов
@@ -127,6 +127,21 @@ class PTE(QMainWindow):
         act.setStyleSheet(sign_act_style)
         self.mainElLayout.addWidget(act, 7, 3)
 
+        self.surfaceGroups = QWidget(self.surfacePTE)
+        self.surfaceGroups.setStyleSheet(
+            "background-color: rgb(100, 100, 100);"
+            "border-radius: 20px"
+            )
+
+    #создаём таблицу с подписями групп элементов
+        self.groupsLayout = QHBoxLayout()
+        self.groupsLayout.addWidget(widgets.GTW())
+        self.surfaceGroups.setLayout(self.groupsLayout)
+        self.surfaceGroups.resize(int(self.surfacePTE.size().width() // 2.3),
+                                  int(self.surfacePTE.size().height() // 4.6))
+        self.surfaceGroups.move(int(self.surfacePTE.size().width() // 4.8),
+                                int(self.surfacePTE.size().height() // 13.1))
+
     def keyPressEvent(self, event):
         if int(event.modifiers()) == Qt.CTRL:
             x, y = self.surfacePTE.x(), self.surfacePTE.y()
@@ -135,18 +150,30 @@ class PTE(QMainWindow):
                 d = v
                 h = self.surfacePTE.size().height() + d
                 self.surfacePTE.resize(ceil(h * k), h)
+
+                self.surfaceGroups.resize(int(self.surfacePTE.size().width() // 2.3),
+                                          int(self.surfacePTE.size().height() // 4.6))
+                self.surfaceGroups.move(int(self.surfacePTE.size().width() // 4.8),
+                                        int(self.surfacePTE.size().height() // 13.1))
+
                 self.surfacePTE.move(int(x - (d * k) // 2), int(y - d // 2))
             if event.key() == Qt.Key_M:
                 d = -v
                 h = self.surfacePTE.size().height() + d
                 self.surfacePTE.resize(ceil(h * k), h)
+
+                self.surfaceGroups.resize(int(self.surfacePTE.size().width() // 2.3),
+                                          int(self.surfacePTE.size().height() // 4.6))
+                self.surfaceGroups.move(int(self.surfacePTE.size().width() // 4.8),
+                                        int(self.surfacePTE.size().height() // 13.1))
+
                 self.surfacePTE.move(int(x - (d * k) // 2), int(y - d // 2))
 
 
 def main():
     app = QApplication(sys.argv)
     ex = PTE()
-    ex.show()
+    ex.showMaximized()
     sys.exit(app.exec())
 
 

@@ -1,12 +1,11 @@
-import sys
 from math import ceil
-
-from PyQt5.QtWidgets import QWidget, QPushButton, QApplication, QLineEdit
+from PyQt5.QtWidgets import QWidget, QPushButton, QLineEdit
 from PyQt5.QtGui import QFont
 from PyQt5 import QtCore
 from PyQt5.QtCore import Qt
 
 from widgets.elementInfo import InfoEl
+from widgets.slotConsts import *
 
 
 class SlotEl(QWidget):
@@ -16,10 +15,9 @@ class SlotEl(QWidget):
         self.initUI()
 
     def initUI(self):
-        self.setGeometry(600, 400, 200, 200)
         self.setStyleSheet(
             "color: rgb(255, 255, 255);"
-            "border: 0px solid #094065;"
+            "border: 0px solid;"
             f"background-color: #{self.args[4]};"
         )
 
@@ -70,26 +68,29 @@ class SlotEl(QWidget):
         size_b_base = (a, ceil(size_base * 1.2))
         size_b_sym = (a, ceil(size_sym * 1.2))
 
+        (indent_left, indent_left_orb, indent_top_num,
+         indent_top_sym, indent_top_name, indent_top_mass) = get_indents(a)
+
         self.num.setFixedSize(*size_b_base)
         self.num.setFont(font_base)
-        self.num.move(a // 16, a // 16)
+        self.num.move(indent_left, indent_top_num)
 
         self.sym.setFixedSize(*size_b_sym)
         self.sym.setFont(font_sym)
-        self.sym.move(a // 16, a // 4)
+        self.sym.move(indent_left, indent_top_sym)
 
         self.name.setFixedSize(*size_b_base)
         self.name.setFont(font_base)
-        self.name.move(a // 16, a // 2 + a // 16)
+        self.name.move(indent_left, indent_top_name)
 
         self.mass.setFixedSize(*size_b_base)
         self.mass.setFont(font_base)
-        self.mass.move(a // 16, a // 4 * 3)
+        self.mass.move(indent_left, indent_top_mass)
 
         for i, orb in enumerate(self.arr_of_orbs):
             orb.setFixedSize(a // 8 + a // 16, a // 8)
             orb.setFont(font_base)
-            orb.move(a // 4 * 3 + a // 16, (a // 16) + a // 8 * i)
+            orb.move(indent_left_orb, (a // 16) + a // 8 * i)
 
         square_size = QtCore.QSize(a, a)
         self.resize(square_size)
@@ -99,14 +100,3 @@ class SlotEl(QWidget):
     def showInfo(self):
         self.info = InfoEl(self.args[0], self.args[6], self.args[7])
         self.info.show()
-
-
-def main():
-    app = QApplication(sys.argv)
-    ex = SlotEl(118, 'Og', 'Оганесон', 294, '66AAFF', '2 8 18 32 32 18 8', 7, 19)
-    ex.show()
-    sys.exit(app.exec())
-
-
-if __name__ == '__main__':
-    main()

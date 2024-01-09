@@ -1,6 +1,4 @@
-import sys
-
-from PyQt5.QtWidgets import QApplication, QWidget
+from PyQt5.QtWidgets import QWidget
 from PyQt5.QtGui import QPixmap
 from PyQt5 import uic
 
@@ -64,14 +62,3 @@ class InfoEl(QWidget):
 
     def cntNeutron(self):
         return str(round(float(self.args["weight"])) - self.num)
-
-
-def main():
-    app = QApplication(sys.argv)
-    ex = InfoEl(17, 3, 17)
-    ex.show()
-    sys.exit(app.exec())
-
-
-if __name__ == '__main__':
-    main()
